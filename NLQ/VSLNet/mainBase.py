@@ -99,7 +99,7 @@ def main(configs, parser):
             save_pretty=True,
         )
         # build model
-        model = VSLNet(
+        model = VSLBase(
             configs=configs, word_vectors=dataset.get("word_vector", None)
         ).to(device)
         optimizer, scheduler = build_optimizer_and_scheduler(model, configs=configs)
