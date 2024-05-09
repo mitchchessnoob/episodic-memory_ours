@@ -10,7 +10,7 @@ import torch.nn as nn
 import submitit
 from torch.utils.tensorboard.writer import SummaryWriter
 from model.VSLBase import build_optimizer_and_scheduler
-from model.VSLBase import VSLBase
+import model.VSLBase
 from tqdm import tqdm
 from utils.data_gen import gen_or_load_dataset
 from utils.data_loader import get_test_loader, get_train_loader
