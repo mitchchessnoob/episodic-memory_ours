@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 import submitit
 from torch.utils.tensorboard.writer import SummaryWriter
-from model.VSLNet import build_optimizer_and_scheduler, VSLNet, VSLBase
+from model.VSLNet import build_optimizer_and_scheduler, VSLBase
 from tqdm import tqdm
 from utils.data_gen import gen_or_load_dataset
 from utils.data_loader import get_test_loader, get_train_loader
@@ -23,7 +23,7 @@ from utils.runner_utils import (
 )
 
 
-def main(configs, parser, mod = "VSLNet"):
+def main(configs, parser):
     print(f"Running with {configs}", flush=True)
 
     # set tensorflow configs
@@ -98,12 +98,9 @@ def main(configs, parser, mod = "VSLNet"):
             save_pretty=True,
         )
         # build model
-        if mod == "VSLNet":
-            model = VSLNet(
-            configs=configs, word_vectors=dataset.get("word_vector", None)
-        ).to(device)
-        else:
-            model = VSLBase(
+        
+        
+        model = VSLBase(
             configs=configs, word_vectors=dataset.get("word_vector", None)
         ).to(device)
         optimizer, scheduler = build_optimizer_and_scheduler(model, configs=configs)
