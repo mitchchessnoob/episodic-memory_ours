@@ -31,16 +31,19 @@ def process_question(question):
     return question.strip(" ").strip("?").lower() + "?"
 
 
-def reformat_data(split_data, test_split=False):
+def reformat_data(split_data, test_split=False, egovlp = False):
     """Convert the format from JSON files.
     fps, num_frames, timestamps, sentences, exact_times,
     annotation_uids, query_idx.
     """
+    death_list = ["cbfa5f1a-d8ac-426f-8516-d2af8df96951"]
     formatted_data = {}
     clip_video_map = {}
     for video_datum in split_data["videos"]:
         for clip_datum in video_datum["clips"]:
             clip_uid = clip_datum["clip_uid"]
+            if clip_uid in death_list and egovlp:
+                continue
             clip_video_map[clip_uid] = (
                 video_datum["video_uid"],
                 clip_datum["video_start_sec"],
