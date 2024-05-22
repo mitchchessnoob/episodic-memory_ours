@@ -39,7 +39,8 @@ def reformat_data(split_data, test_split=False):
     death_list = ['cbfa5f1a-d8ac-426f-8516-d2af8df96951',
       '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 
       'b4ebb827-cef7-4964-84c0-e478dd0e7800',
-      'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1']
+      'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1',
+      'df24f706-ab57-4477-a87f-73c0aa80ab67']
     formatted_data = {}
     clip_video_map = {}
     for video_datum in split_data["videos"]:
@@ -118,7 +119,8 @@ def convert_ego4d_dataset(args):
     death_list = ['cbfa5f1a-d8ac-426f-8516-d2af8df96951',
       '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 
       'b4ebb827-cef7-4964-84c0-e478dd0e7800',
-      'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1']
+      'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1',
+      'df24f706-ab57-4477-a87f-73c0aa80ab67']
     for clip_uid, (video_uid, start_sec, end_sec) in progress_bar:
       if clip_uid not in death_list:
         feature_path = os.path.join(args["video_feature_read_path"], f"{video_uid}.pt")
