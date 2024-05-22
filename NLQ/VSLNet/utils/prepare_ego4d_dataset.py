@@ -36,7 +36,7 @@ def reformat_data(split_data, test_split=False):
     fps, num_frames, timestamps, sentences, exact_times,
     annotation_uids, query_idx.
     """
-    death_list = ["cbfa5f1a-d8ac-426f-8516-d2af8df96951"]
+    death_list = ['cbfa5f1a-d8ac-426f-8516-d2af8df96951',  '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 'b4ebb827-cef7-4964-84c0-e478dd0e7800']
     formatted_data = {}
     clip_video_map = {}
     for video_datum in split_data["videos"]:
