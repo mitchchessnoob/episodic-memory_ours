@@ -36,7 +36,10 @@ def reformat_data(split_data, test_split=False):
     fps, num_frames, timestamps, sentences, exact_times,
     annotation_uids, query_idx.
     """
-    death_list = ['cbfa5f1a-d8ac-426f-8516-d2af8df96951',  '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 'b4ebb827-cef7-4964-84c0-e478dd0e7800']
+    death_list = ['cbfa5f1a-d8ac-426f-8516-d2af8df96951',
+      '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 
+      'b4ebb827-cef7-4964-84c0-e478dd0e7800',
+      'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1']
     formatted_data = {}
     clip_video_map = {}
     for video_datum in split_data["videos"]:
@@ -44,47 +47,47 @@ def reformat_data(split_data, test_split=False):
             clip_uid = clip_datum["clip_uid"]
             if clip_uid in death_list:
                 print(f"Discarded {clip_uid}")
-                continue
-            clip_video_map[clip_uid] = (
-                video_datum["video_uid"],
-                clip_datum["video_start_sec"],
-                clip_datum["video_end_sec"],
-            )
-            clip_duration = clip_datum["video_end_sec"] - clip_datum["video_start_sec"]
-            num_frames = get_nearest_frame(clip_duration, math.ceil)
-            new_dict = {
-                "fps": FEATURES_PER_SEC,
-                "num_frames": num_frames,
-                "timestamps": [],
-                "exact_times": [],
-                "sentences": [],
-                "annotation_uids": [],
-                "query_idx": [],
-            }
+            else:
+              clip_video_map[clip_uid] = (
+                  video_datum["video_uid"],
+                  clip_datum["video_start_sec"],
+                  clip_datum["video_end_sec"],
+              )
+              clip_duration = clip_datum["video_end_sec"] - clip_datum["video_start_sec"]
+              num_frames = get_nearest_frame(clip_duration, math.ceil)
+              new_dict = {
+                  "fps": FEATURES_PER_SEC,
+                  "num_frames": num_frames,
+                  "timestamps": [],
+                  "exact_times": [],
+                  "sentences": [],
+                  "annotation_uids": [],
+                  "query_idx": [],
+              }
 
-            for ann_datum in clip_datum["annotations"]:
-                for index, datum in enumerate(ann_datum["language_queries"]):
-                    if not test_split:
-                        start_time = float(datum["clip_start_sec"])
-                        end_time = float(datum["clip_end_sec"])
-                    else:
-                        # Random placeholders for test set.
-                        start_time = 0.
-                        end_time = 0.
+              for ann_datum in clip_datum["annotations"]:
+                  for index, datum in enumerate(ann_datum["language_queries"]):
+                      if not test_split:
+                          start_time = float(datum["clip_start_sec"])
+                          end_time = float(datum["clip_end_sec"])
+                      else:
+                          # Random placeholders for test set.
+                          start_time = 0.
+                          end_time = 0.
 
-                    if "query" not in datum or not datum["query"]:
-                        continue
-                    new_dict["sentences"].append(process_question(datum["query"]))
-                    new_dict["annotation_uids"].append(ann_datum["annotation_uid"])
-                    new_dict["query_idx"].append(index)
-                    new_dict["exact_times"].append([start_time, end_time]),
-                    new_dict["timestamps"].append(
-                        [
-                            get_nearest_frame(start_time, math.floor),
-                            get_nearest_frame(end_time, math.ceil),
-                        ]
-                    )
-            formatted_data[clip_uid] = new_dict
+                      if "query" not in datum or not datum["query"]:
+                          continue
+                      new_dict["sentences"].append(process_question(datum["query"]))
+                      new_dict["annotation_uids"].append(ann_datum["annotation_uid"])
+                      new_dict["query_idx"].append(index)
+                      new_dict["exact_times"].append([start_time, end_time]),
+                      new_dict["timestamps"].append(
+                          [
+                              get_nearest_frame(start_time, math.floor),
+                              get_nearest_frame(end_time, math.ceil),
+                          ]
+                      )
+              formatted_data[clip_uid] = new_dict
     return formatted_data, clip_video_map
 
 
@@ -112,7 +115,12 @@ def convert_ego4d_dataset(args):
     feature_sizes = {}
     os.makedirs(args["clip_feature_save_path"], exist_ok=True)
     progress_bar = tqdm.tqdm(all_clip_video_map.items(), desc="Extracting features")
+    death_list = ['cbfa5f1a-d8ac-426f-8516-d2af8df96951',
+      '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 
+      'b4ebb827-cef7-4964-84c0-e478dd0e7800',
+      'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1']
     for clip_uid, (video_uid, start_sec, end_sec) in progress_bar:
+      if clip_uid not in death_list:
         feature_path = os.path.join(args["video_feature_read_path"], f"{video_uid}.pt")
         feature = torch.load(feature_path)
 
@@ -159,3 +167,4 @@ if __name__ == "__main__":
         parser.error(str(msg))
 
     convert_ego4d_dataset(parsed_args)
+
