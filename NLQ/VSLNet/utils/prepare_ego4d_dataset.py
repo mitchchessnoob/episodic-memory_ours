@@ -40,7 +40,10 @@ def reformat_data(split_data, test_split=False):
       '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 
       'b4ebb827-cef7-4964-84c0-e478dd0e7800',
       'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1',
-      'df24f706-ab57-4477-a87f-73c0aa80ab67']
+      'df24f706-ab57-4477-a87f-73c0aa80ab67',
+      '88656f6a-0178-435d-a418-26bfda215509',
+      'ecc34569-3fab-476d-a716-896e0f038ceb',
+      '04d54520-171c-4795-afe5-1ed15d439e65']
     formatted_data = {}
     clip_video_map = {}
     for video_datum in split_data["videos"]:
@@ -120,7 +123,10 @@ def convert_ego4d_dataset(args):
       '7100f6ce-dff4-4399-b0bd-7fce6dedf1cb', 
       'b4ebb827-cef7-4964-84c0-e478dd0e7800',
       'e8e1c8c6-cc90-458a-8cc8-6475c4fc48e1',
-      'df24f706-ab57-4477-a87f-73c0aa80ab67']
+      'df24f706-ab57-4477-a87f-73c0aa80ab67',
+      '88656f6a-0178-435d-a418-26bfda215509',
+      'ecc34569-3fab-476d-a716-896e0f038ceb',
+      '04d54520-171c-4795-afe5-1ed15d439e65']
     for clip_uid, (video_uid, start_sec, end_sec) in progress_bar:
       if clip_uid not in death_list:
         feature_path = os.path.join(args["video_feature_read_path"], f"{video_uid}.pt")
