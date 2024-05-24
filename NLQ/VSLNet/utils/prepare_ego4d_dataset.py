@@ -40,10 +40,8 @@ def reformat_data(split_data, test_split=False):
     clip_video_map = {}
     for video_datum in split_data["videos"]:
         for clip_datum in video_datum["clips"]:
-            clip_uid = clip_datum["clip_uid"]
-            if clip_uid in death_list:
-                print(f"Discarded {clip_uid}")
-            else:
+              clip_uid = clip_datum["clip_uid"]
+            
               clip_video_map[clip_uid] = (
                   video_datum["video_uid"],
                   clip_datum["video_start_sec"],
@@ -111,8 +109,7 @@ def convert_ego4d_dataset(args):
     feature_sizes = {}
     os.makedirs(args["clip_feature_save_path"], exist_ok=True)
     progress_bar = tqdm.tqdm(all_clip_video_map.items(), desc="Extracting features")
-    for clip_uid, (video_uid, start_sec, end_sec) in progress_bar:
-      if clip_uid not in death_list:
+    for clip_uid, (video_uid, start_sec, end_sec) in progress_bar
         feature_path = os.path.join(args["video_feature_read_path"], f"{video_uid}.pt")
         feature = torch.load(feature_path)
 
