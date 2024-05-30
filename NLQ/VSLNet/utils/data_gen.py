@@ -292,7 +292,7 @@ def gen_or_load_dataset(configs):
         os.makedirs(configs.save_dir)
     data_dir = os.path.join("data", "dataset", configs.task)
     if configs.fv == "egovlp":
-        feature_dir = "/content/drive/MyDrive/MLandDL/Project/egovlp_fp16/"
+        feature_dir = "/content/ego4d_data/v1/egovlp_fp16/storage/ego4d/v2/egovlp_fp16"
     else:
         feature_dir = os.path.join("data", "features", configs.task, configs.fv)
     if configs.suffix is None:
